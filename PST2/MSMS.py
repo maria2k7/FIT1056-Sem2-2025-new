@@ -98,7 +98,56 @@ def print_student_card(student_id):
         print(f"Printed student card to {filename}.")
     else:
         print(f"Error: Could not print card, student {student_id} not found.")
+
+# Main function, for real this time
+def main():
+    """Main function to run the MSMS application."""
+    load_data() # Load all data from file at startup.
+
+    while True:
+        print("\n===== MSMS v2 (Persistent) =====")
+        print("1. Check-in Student")
+        print("2. Print Student Card")
+        print("3. Update Teacher Info")
+        print("4. Remove Student")
+        print("q. Quit and Save")
         
+        choice = input("Enter your choice: ")
+        
+        made_change = False # A flag to track if we need to save
+        if choice == '1':
+            sid = str(input("Please enter your student id: "))
+            cid = str(input("Please enter your course id: "))
+            check_in(sid,cid)
+            made_change = True
+        elif choice == '2':
+            sid = str(input("Please enter your student id: "))
+            print_student_card(sid)
+            print ("Your student ID card is ready to be used.")
+            pass 
+        elif choice == '3':
+            tid = str(input("Please enter your teacher id: "))
+            news = str(input("Please enter the details you want to updapte: "))
+            update_teacher(tid, news)
+            made_change = True
+        elif choice == '4':
+            sid = str(input("Please enter your student id: "))
+            remove_student(sid)
+            made_change = True
+        elif choice.lower() == 'q':
+            print("Saving final changes and exiting.")
+            break
+        else:
+            print("Invalid choice.")
+            
+        if made_change == True:
+            save_data(msms.json) # Save the data immediately after any change.
+
+    save_data(msms.json) # One final save on exit.
+
+# --- Program Start ---
+if __name__ == "__main__":
+    main()
 
 
 
