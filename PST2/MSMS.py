@@ -44,6 +44,13 @@ def remove_teacher(teacher_id):
         app_data['teachers'].remove(app_data['teachers'][teacher_id - 1])
     else:
         print ("This teacher does not exist in the reccords")
+def add_student(name):
+    """Adds a student dictionary to the data store."""
+    student_id = app_data["next_student_id"]
+    new_student = {"id": student_id, "name": name, "attendance" : []}
+    app_data['students'].append(new_student)
+    app_data['next_student_id'] += 1
+    print(f"Core: Student '{name}' added.")
 def update_student(student_id, **fields):
     """Finds a student by ID and updates their data with provided fields."""
     for student in app_data['student']:
@@ -57,6 +64,41 @@ def remove_student(student_id):
         app_data['students'].remove(app_data['students'][students_id - 1])
     else:
         print ("This student does not exist in the reccords")
+
+#ID Card printing & Receptionist features
+def check_in(student_id, course_id, timestamp=None):
+    """Records a student's attendance for a course."""
+    if timestamp is None:
+        timestamp = datetime.datetime.now().isoformat()
+    check_in_record = {
+        "student_id": student_id,
+        "course_id": course_id,
+        "timestamp": timestamp
+    }
+    app_data['attendance'].append(check_in_record)
+    print(f"Receptionist: Student {student_id} checked into {course_id}.")
+
+def print_student_card(student_id):
+    """Creates a text file badge for a student."""
+    student_to_print = None
+    for s in app_data['students']:
+        if s['id'] == student_id:
+            student_to_print = s
+            break
+    
+    if student_to_print != None:
+        filename = f"{student_id}_card.txt"
+        with open(filename, 'w') as f:
+            f.write("========================\n")
+            f.write(f"  MUSIC SCHOOL ID BADGE\n")
+            f.write("========================\n")
+            f.write(f"ID: {student_to_print['id']}\n")
+            f.write(f"Name: {student_to_print['name']}\n")
+            f.write(f"Enrolled In: {', '.join(student_to_print.get('enrolled_in', []))}\n")
+        print(f"Printed student card to {filename}.")
+    else:
+        print(f"Error: Could not print card, student {student_id} not found.")
+        
 
 
 
