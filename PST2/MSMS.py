@@ -26,7 +26,7 @@ def save_data(path = DATA_FILE):
 #CRUD for both teachers and students
 def add_teacher(name, speciality):
     """Adds a teacher dictionary to the data store."""
-    teacher_id = app_data['next_teacher_id']
+    teacher_id = app_data["next_teacher_id"]
     new_teacher = {"id": teacher_id, "name": name, "speciality": speciality}
     app_data['teachers'].append(new_teacher)
     app_data['next_teacher_id'] += 1
@@ -41,12 +41,26 @@ def update_teacher(teacher_id, **fields):
             print(f"Error: Teacher with ID {teacher_id} not found.")
 def remove_teacher(teacher_id):
     if teacher['id'] == teacher_id:
-        del app_data['teachers', (teacher_id)]
+        app_data['teachers'].remove(app_data['teachers'][teacher_id - 1])
     else:
         print ("This teacher does not exist in the reccords")
+def update_student(student_id, **fields):
+    """Finds a student by ID and updates their data with provided fields."""
+    for student in app_data['student']:
+        if student['id'] == student_id:
+            student.update(fields)
+            print(f"Student {student_id} updated.")
+        else:
+            print(f"Error: Student with ID {student_id} not found.")
+def remove_student(student_id):
+    if student['id'] == student_id:
+        app_data['students'].remove(app_data['students'][students_id - 1])
+    else:
+        print ("This student does not exist in the reccords")
 
-add_teacher ("Joe", "Mama")
-remove_teacher (1)
+
+
+
 
 
 
