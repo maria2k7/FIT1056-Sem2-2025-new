@@ -141,9 +141,9 @@ def main():
             print("Invalid choice.")
             
         if made_change == True:
-            save_data(msms.json) # Save the data immediately after any change.
+            save_data() # Save the data immediately after any change.
 
-    save_data(msms.json) # One final save on exit.
+    save_data() # One final save on exit.
 
 # --- Program Start ---
 if __name__ == "__main__":
