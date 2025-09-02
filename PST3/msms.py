@@ -41,4 +41,42 @@ def sim_response():
     print ("Response time:", round (end - start, 2), "seconds")
 
 sim_response()
+class person:
+    def __init__(self, name, age, subject):
+        self.name = name
+        self.age = age
+        self.subject = subject
+        self.salary = 30000
+        self.total_ppl = 0
+        self.total_ppl += 1
+class stoodent(person):
+    def show_total():
+        print("Total monkeys created:", person.total_ppl)
+    def introduce(self):
+        print(f"Hi, I'm {self.name} and I play the {self. subject}")
+
+s1 = stoodent("Maya", "11", "Violin")
+s2 = stoodent("Hikari", "17", "Piano")
+s1.introduce()
+s2.introduce()
+class teacher(person):
+    def introduce(self):
+        print(f"Hi, I'm {self.name} and I teach the {self.subject}")
+    def set_salary(self, value):
+        if 30000 <= value <= 150000:
+            self.salary = value
+            print ("Aight bro")
+        else:
+            print("Nuh uh, what is ts?")
+    def get_salary(self):
+        return print(self.salary)
+t1 = teacher("Dr.Ligma", "28", "Horn")
+t1.set_salary(10000000)
+t1.get_salary()
+t1.introduce()
+ppl = [stoodent("Hikari","17","piano"), stoodent("Maya","11","violin"),teacher("Dr.Ligma","28","Horn")]
+for people in ppl:
+    people.introduce()
+
+stoodent.show_total()
 
