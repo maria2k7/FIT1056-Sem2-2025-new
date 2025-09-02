@@ -1,6 +1,10 @@
 import json
-from app.student import StudentUser
-from app.teacher import TeacherUser, Course
+import sys
+sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST3/app')
+import student
+import teacher
+from student import StudentUser
+from teacher import TeacherUser, Course
 
 class ScheduleManager:
     """The main controller for all business logic and data handling."""

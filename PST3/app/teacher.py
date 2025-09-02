@@ -1,4 +1,7 @@
-from app.user import User
+import sys
+sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST3/app')
+import user
+from user import User
 
 class TeacherUser(User):
     """Represents a teacher."""
