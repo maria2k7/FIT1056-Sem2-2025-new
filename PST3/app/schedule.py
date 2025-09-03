@@ -1,7 +1,9 @@
 import json
 import datetime
-from app.student import StudentUser
-from app.teacher import TeacherUser, Course
+import sys
+sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST3/app')
+from student import StudentUser
+from teacher import TeacherUser, Course
 
 class ScheduleManager:
     """The main controller for all business logic and data handling."""
@@ -70,6 +72,7 @@ class ScheduleManager:
                 return student
     def find_course_by_id(self,course_id):
         for course in app_data['course']:
-            if course['id'] == course_id:    
+            if course['id'] == course_id:
+                return course    
 
         # TODO: Also implement find_student_by_id and find_course_by_id helper methods.
