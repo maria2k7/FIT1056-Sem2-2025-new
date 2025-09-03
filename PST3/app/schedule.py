@@ -26,6 +26,7 @@ class ScheduleManager:
                 # TODO: Correctly load the attendance log.
                 # Use .get() with a default empty list to prevent errors if the key doesn't exist.
                 self.attendance_log = data.get("attendance", [])
+                print ("The data has been retrieved successfully")
         except FileNotFoundError:
             print("Data file not found. Starting with a clean state.")
     
@@ -62,5 +63,13 @@ class ScheduleManager:
         self._save_data() # This will now correctly save the attendance log.
         print(f"Success: Student {student.name} checked into {course.name}.")
         return True
+
+    def find_student_by_id(self,student_id):
+        for student in app_data['student']:
+            if student['id'] == student_id:
+                return student
+    def find_course_by_id(self,course_id):
+        for course in app_data['course']:
+            if course['id'] == course_id:    
 
         # TODO: Also implement find_student_by_id and find_course_by_id helper methods.
