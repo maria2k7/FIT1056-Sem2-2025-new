@@ -1,9 +1,12 @@
 # main.py - The View Layer
-from app.schedule import ScheduleManager
+import sys
+sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST3/app')
+from schedule import ScheduleManager
 
 def front_desk_daily_roster(manager, day):
     """Displays a pretty table of all lessons on a given day."""
     print(f"\n--- Daily Roster for {day} ---")
+    daily_roster = _load_data(day)
     # Notice: This code does not need to change. It doesn't care where the Course class lives.
     # It only talks to the manager.
     # TODO: Call a method on the manager to get the day's lessons and print them.
@@ -11,6 +14,7 @@ def front_desk_daily_roster(manager, day):
 
 def switch_course(manager, student_id, from_course_id, to_course_id):
     # TODO: Implement the logic to switch a student by calling methods on the manager.
+
     pass
 
 def main():
