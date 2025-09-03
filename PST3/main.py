@@ -6,6 +6,7 @@ from schedule import ScheduleManager
 def front_desk_daily_roster(manager, day):
     """Displays a pretty table of all lessons on a given day."""
     print(f"\n--- Daily Roster for {day} ---")
+    manager._load_data()
     # Notice: This code does not need to change. It doesn't care where the Course class lives.
     # It only talks to the manager.
     # TODO: Call a method on the manager to get the day's lessons and print them.
@@ -13,6 +14,8 @@ def front_desk_daily_roster(manager, day):
 
 def switch_course(manager, student_id, from_course_id, to_course_id):
     # TODO: Implement the logic to switch a student by calling methods on the manager.
+    super().__ScheduleManager__1find_student_by_id(student_id)
+    super().find_course_id(from_course_id)
 
     pass
 
@@ -28,6 +31,12 @@ def main():
         if choice == '1':
             day = input("Enter day (e.g., Monday): ")
             front_desk_daily_roster(manager, day)
+        elif choice == "2":
+            "checkin"
+        elif choice == "3":
+            "find student by id"
+        elif choice == "4":
+            "find course by id"
         elif choice.lower() == 'q':
             break
         

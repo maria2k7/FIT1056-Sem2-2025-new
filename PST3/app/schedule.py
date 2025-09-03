@@ -24,7 +24,9 @@ class ScheduleManager:
                 data = json.load(f)
                 # TODO: Load students, teachers, and courses as before.
                 # ...
-
+                self.students = [StudentUser(**s) for s in data.get("students", [])]
+                self.teachers = [TeacherUser(**t) for t in data.get("teachers", [])]
+                self.courses = [Course(**c) for c in data.get("courses", [])]
                 # TODO: Correctly load the attendance log.
                 # Use .get() with a default empty list to prevent errors if the key doesn't exist.
                 self.attendance_log = data.get("attendance", [])
@@ -67,12 +69,12 @@ class ScheduleManager:
         return True
 
     def find_student_by_id(self,student_id):
-        for student in app_data['student']:
-            if student['id'] == student_id:
+        for student in self.students['student']:
+            if student['id'] == id:
                 return student
     def find_course_by_id(self,course_id):
-        for course in app_data['course']:
-            if course['id'] == course_id:
+        for course in self.courses['course']:
+            if course['id'] == id:
                 return course    
 
         # TODO: Also implement find_student_by_id and find_course_by_id helper methods.
