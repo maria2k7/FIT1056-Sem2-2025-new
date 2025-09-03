@@ -6,7 +6,6 @@ from schedule import ScheduleManager
 def front_desk_daily_roster(manager, day):
     """Displays a pretty table of all lessons on a given day."""
     print(f"\n--- Daily Roster for {day} ---")
-    daily_roster = _load_data(day)
     # Notice: This code does not need to change. It doesn't care where the Course class lives.
     # It only talks to the manager.
     # TODO: Call a method on the manager to get the day's lessons and print them.

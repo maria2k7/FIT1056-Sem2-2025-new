@@ -1,7 +1,4 @@
-import sys
-sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST3/app')
-import user
-from user import User
+from app.user import User
 
 class StudentUser(User):
     """Represents a student, inheriting from the base User class."""

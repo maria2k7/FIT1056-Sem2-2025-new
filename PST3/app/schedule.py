@@ -1,11 +1,7 @@
 import json
 import datetime
-import sys
-sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST3/app')
-import student
-import teacher
-from student import StudentUser
-from teacher import TeacherUser, Course
+from app.student import StudentUser
+from app.teacher import TeacherUser, Course
 
 class ScheduleManager:
     """The main controller for all business logic and data handling."""
@@ -26,7 +22,7 @@ class ScheduleManager:
                 data = json.load(f)
                 # TODO: Load students, teachers, and courses as before.
                 # ...
-                print (data)
+
                 # TODO: Correctly load the attendance log.
                 # Use .get() with a default empty list to prevent errors if the key doesn't exist.
                 self.attendance_log = data.get("attendance", [])
@@ -50,18 +46,21 @@ class ScheduleManager:
             json.dump(data_to_save, f, indent=4)
     def check_in(self, student_id, course_id):
         """Records a student's attendance for a course after validation."""
-        # This implementation remains the same, but it will now function correctly.#
+        # This implementation remains the same, but it will now function correctly.
         student = self.find_student_by_id(student_id)
         course = self.find_course_by_id(course_id)
+    
         if not student or not course:
             print("Error: Check-in failed. Invalid Student or Course ID.")
             return False
+        
         timestamp = datetime.datetime.now().isoformat()
         check_in_record = {"student_id": student_id, "course_id": course_id, "timestamp": timestamp}
-        # This line will now work without causing an AttributeError.#
+    
+        # This line will now work without causing an AttributeError.
         self.attendance_log.append(check_in_record)
-        self._save_data() 
-        # This will now correctly save the attendance log.#
+        self._save_data() # This will now correctly save the attendance log.
         print(f"Success: Student {student.name} checked into {course.name}.")
         return True
+
         # TODO: Also implement find_student_by_id and find_course_by_id helper methods.
