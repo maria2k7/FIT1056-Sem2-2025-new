@@ -7,7 +7,7 @@ from teacher import TeacherUser, Course
 
 class ScheduleManager:
     """The main controller for all business logic and data handling."""
-    def __init__(self, data_path="data/msms.json"):
+    def __init__(self, data_path="C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST3/data/msms.json"):
         self.data_path = data_path
         self.students = []
         self.teachers = []
@@ -24,13 +24,14 @@ class ScheduleManager:
                 data = json.load(f)
                 # TODO: Load students, teachers, and courses as before.
                 # ...
-                self.students = [StudentUser(**s) for s in data.get("students", [])]
-                self.teachers = [TeacherUser(**t) for t in data.get("teachers", [])]
-                self.courses = [Course(**c) for c in data.get("courses", [])]
+                self.students = data.get("students", [{}])
+                self.teachers = data.get("teachers", [{}])
+                self.course = data.get("courses", [{}])
                 # TODO: Correctly load the attendance log.
                 # Use .get() with a default empty list to prevent errors if the key doesn't exist.
-                self.attendance_log = data.get("attendance", [])
+                self.attendance_log = data.get("attendance", [{}])
                 print ("The data has been retrieved successfully")
+                print(self.courses)
         except FileNotFoundError:
             print("Data file not found. Starting with a clean state.")
     
@@ -68,13 +69,17 @@ class ScheduleManager:
         print(f"Success: Student {student.name} checked into {course.name}.")
         return True
 
-    def find_student_by_id(self,student_id):
-        for student in self.students['student']:
-            if student['id'] == id:
-                return student
-    def find_course_by_id(self,course_id):
-        for course in self.courses['course']:
-            if course['id'] == id:
-                return course    
+    def find_student_by_id(self, user_id):
+        for student in self.students:
+            if getattr(student, 'user_id', None) == user_id:
+                print (student)
+                return True
+        return None
+    def find_course_by_id(self, course_id):
+        for course in self.courses:
+            if getattr(course, 'course_id', None) == course_id:
+                print (course)
+                return True
+        return None   
 
         # TODO: Also implement find_student_by_id and find_course_by_id helper methods.

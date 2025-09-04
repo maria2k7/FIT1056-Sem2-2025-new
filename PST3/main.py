@@ -14,8 +14,20 @@ def front_desk_daily_roster(manager, day):
 
 def switch_course(manager, student_id, from_course_id, to_course_id):
     # TODO: Implement the logic to switch a student by calling methods on the manager.
-    super().__ScheduleManager__1find_student_by_id(student_id)
-    super().find_course_id(from_course_id)
+    student = manager.find_student_by_id(student_id)
+    current_course = manager.find_course_by_id(from_course_id)
+    new_course = manager.find_course_by_id(to_course_id)
+    if not student or not current_course or not new_course:
+        print("Something went wrong, please double check the deatails entered.")
+    else:
+        if from_course_id in student.enrolled_course_ids:
+            student.enrolled_course_ids.remove(from_course_id)
+            student.enrolled_course_ids.append(to_course_id)
+            current_course.enrolled_student_ids.remove(student_id)
+            new_course.enrolled_student_ids.append(student_id)
+            print(f"Success: Student {student.name} has switched from {current_course.name} to {new_course.name}!")
+        else:
+            print("This student has not enrolled into this course, please check again.")
 
     pass
 
@@ -32,11 +44,24 @@ def main():
             day = input("Enter day (e.g., Monday): ")
             front_desk_daily_roster(manager, day)
         elif choice == "2":
-            "checkin"
+            student_id = input("Enter student ID: ")
+            from_course_id = input("Enter current course ID: ")
+            to_course_id = input("Enter new course ID: ")
+            switch_course(manager, student_id, from_course_id, to_course_id)
         elif choice == "3":
-            "find student by id"
+            student_id = input("Enter student ID: ")
+            find_student = manager.find_student_by_id(student_id)
+            if find_student == True:
+                print("Student found.")
+            else:
+                print("Student does not exist. Perhaps you are searching for a wrong person?")
         elif choice == "4":
-            "find course by id"
+            course_id = input("Enter course ID: ")
+            find_course = manager.find_course_by_id(course_id)
+            if find_course == True:
+                print("Course found.")
+            else:
+                print("Course does not exist. At least, not yet.")
         elif choice.lower() == 'q':
             break
         
