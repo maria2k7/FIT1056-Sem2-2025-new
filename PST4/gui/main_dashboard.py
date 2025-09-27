@@ -1,8 +1,11 @@
 # gui/main_dashboard.py
 import streamlit as st
-from app.schedule import ScheduleManager
-from gui.student_pages import show_student_management_page
-from gui.roster_pages import show_roster_page
+import sys
+sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST4/app')
+from schedule import ScheduleManager
+sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST4/gui')
+from student_pages import show_student_management_page
+from roster_pages import show_roster_page
 
 def launch():
     """Sets up the main Streamlit application window and navigation."""
