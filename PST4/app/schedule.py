@@ -87,8 +87,7 @@ class ScheduleManager:
             data ["students"] = []
         new_id = max ([s["id"]for s in data["students"]], default=0) + 1
         enrolled_course_ids = self.get(course_name)
-        student =
-        {
+        student = {
             "id" = new_id
             "name" = student_name
             "enrolled_course_ids" = enrolled_course_ids
