@@ -1,13 +1,14 @@
+import sys
+sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST4/data')
 import json
 import datetime
-import sys
 sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST4/app')
 from student import StudentUser
 from teacher import TeacherUser, Course
 
 class ScheduleManager:
     """The main controller for all business logic and data handling."""
-    def __init__(self, data_path="C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST3/data/msms.json"):
+    def __init__(self, data_path="C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST4/data/msms.json"):
         self.data_path = data_path
         self.students = []
         self.teachers = []
@@ -32,9 +33,10 @@ class ScheduleManager:
                 self.attendance_log = data.get("attendance", [])
                 print ("The data has been retrieved successfully")
                 print(self.courses)
+                return data
         except FileNotFoundError:
             print("Data file not found. Starting with a clean state.")
-    
+            return {"students": [], "teachers": [], "courses": [], "attendance": []}    
     def _save_data(self):
         """Converts object lists back to dictionaries and saves to JSON."""
         # TODO: Create a 'data_to_save' dictionary.
@@ -81,18 +83,21 @@ class ScheduleManager:
                 print (course)
                 return True
         return None 
-    def register(self, student, course):
-        data = self.load_data()
+    def register_new_student(self, student, course):
+        data = self._load_data()
         if "students" not in data:
             data ["students"] = []
         new_id = max ([s["id"]for s in data["students"]], default=0) + 1
-        enrolled_course_ids = self.get(course_name)
+        enrolled_course = next ((c for c in self.courses if c[name] == course_name, None))
+        if not enrolled_course:
+            raise ValueError (f"Course {course_name} does not exist.")
         student = {
-            "id": new_id
-            "name": student_name
-            "enrolled_course_ids": enrolled_course_ids
+            "id": new_id,
+            "name": student_name,
+            "enrolled_course_ids": enrolled_course["id"],
         }
         data ["students"]. append(student)
-        self.save_data(data)
+        self._save_data(data)
+        return student
         print("done!")
     # # TODO: Also implement find_student_by_id and find_course_by_id helper methods.
