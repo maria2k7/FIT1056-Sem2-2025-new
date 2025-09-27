@@ -24,12 +24,12 @@ class ScheduleManager:
                 data = json.load(f)
                 # TODO: Load students, teachers, and courses as before.
                 # ...
-                self.students = data.get("students", [{}])
-                self.teachers = data.get("teachers", [{}])
-                self.course = data.get("courses", [{}])
+                self.students = data.get("students", [])
+                self.teachers = data.get("teachers", [])
+                self.courses = data.get("courses", [])
                 # TODO: Correctly load the attendance log.
                 # Use .get() with a default empty list to prevent errors if the key doesn't exist.
-                self.attendance_log = data.get("attendance", [{}])
+                self.attendance_log = data.get("attendance", [])
                 print ("The data has been retrieved successfully")
                 print(self.courses)
         except FileNotFoundError:
@@ -80,6 +80,20 @@ class ScheduleManager:
             if getattr(course, 'course_id', None) == course_id:
                 print (course)
                 return True
-        return None   
-
-        # TODO: Also implement find_student_by_id and find_course_by_id helper methods.
+        return None 
+    def register(self, student, course):
+        data = self.load_data()
+        if "student" not in data:
+            data ["student"] = []
+        new_id = max ([s["id"]for s in data["student"]], default=0) + 1
+        enrolled_course_ids = self.get(course_name)
+        student =
+        {
+            "id" = new_id
+            "name" = student_name
+            "enrolled_course_ids" = enrolled_course_ids
+        }
+        data ["student"]. append(student)
+        self.save_data(data)
+        print("done!")
+    # # TODO: Also implement find_student_by_id and find_course_by_id helper methods.
