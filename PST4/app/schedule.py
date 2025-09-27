@@ -71,12 +71,12 @@ class ScheduleManager:
 
     def find_student_by_id(self, user_id):
         for student in self.students:
-            if getattr(student, 'user_id', None) == user_id or getattr(student, 'id', None) == user_id:
+            if getattr(student, 'user_id', None) == user_id:
                 return student
         return None
     def find_course_by_id(self, course_id):
         for course in self.courses:
-            if getattr(course, 'course_id', None) == course_id or getattr(course, 'id', None) == course_id:
+            if getattr(course, 'course_id', None) == course_id:
                 return course
         return None 
     def register_new_student(self, student_name, course_name):
@@ -86,8 +86,8 @@ class ScheduleManager:
         if not enrolled_course:
             raise ValueError (f"Course {course_name} does not exist.")
         new_student = StudentUser(id=new_id, name=student_name, enrolled_course_ids=[enrolled_course.id])
-        self.students. append(student)
+        self.students. append(new_student)
         self._save_data()
         print("done!")
-        return student
+        return new_student
     # # TODO: Also implement find_student_by_id and find_course_by_id helper methods.
