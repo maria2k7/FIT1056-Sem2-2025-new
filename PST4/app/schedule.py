@@ -1,5 +1,4 @@
 import sys
-sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST4/data')
 import json
 import datetime
 sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST4/app')
@@ -25,14 +24,13 @@ class ScheduleManager:
                 data = json.load(f)
                 # TODO: Load students, teachers, and courses as before.
                 # ...
-                self.students = data.get("students", [])
-                self.teachers = data.get("teachers", [])
-                self.courses = data.get("courses", [])
+                self.students = [StudentUser(**s) for s in data.get("students",[])]
+                self.teachers = [TeacherUser(**s) for s in data.get("teachers",[])]
+                self.courses = [Courses(**c) for c in data.get("courses",[])]
                 # TODO: Correctly load the attendance log.
                 # Use .get() with a default empty list to prevent errors if the key doesn't exist.
                 self.attendance_log = data.get("attendance", [])
                 print ("The data has been retrieved successfully")
-                print(self.courses)
                 return data
         except FileNotFoundError:
             print("Data file not found. Starting with a clean state.")
@@ -73,29 +71,21 @@ class ScheduleManager:
 
     def find_student_by_id(self, user_id):
         for student in self.students:
-            if getattr(student, 'user_id', None) == user_id:
-                print (student)
-                return True
+            if getattr(student, 'user_id', None) == user_id or getattr(student, 'id', None) == user_id:
+                return student
         return None
     def find_course_by_id(self, course_id):
         for course in self.courses:
-            if getattr(course, 'course_id', None) == course_id:
-                print (course)
-                return True
+            if getattr(course, 'course_id', None) == course_id or getattr(course, 'id', None) == course_id:
+                return course
         return None 
     def register_new_student(self, student, course):
-        data = self._load_data()
-        if "students" not in data:
-            data ["students"] = []
-        new_id = max ([s["id"]for s in data["students"]], default=0) + 1
-        enrolled_course = next ((c for c in self.courses if c[name] == course_name, None))
+        self._load_data()
+        new_id = max ([s.idfor s in self.students], default=0) + 1
+        enrolled_course = next ((c for c in self.courses if c.name == course_name), None)
         if not enrolled_course:
             raise ValueError (f"Course {course_name} does not exist.")
-        student = {
-            "id": new_id,
-            "name": student_name,
-            "enrolled_course_ids": enrolled_course["id"],
-        }
+        new_student = StudentUser
         data ["students"]. append(student)
         self._save_data(data)
         return student
