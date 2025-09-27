@@ -1,4 +1,5 @@
 # main.py - GUI Launcher
+import sys
 sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST4/gui')
 from main_dashboard import launch
 
