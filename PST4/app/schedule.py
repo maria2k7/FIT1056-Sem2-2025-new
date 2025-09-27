@@ -83,9 +83,9 @@ class ScheduleManager:
         return None 
     def register(self, student, course):
         data = self.load_data()
-        if "student" not in data:
-            data ["student"] = []
-        new_id = max ([s["id"]for s in data["student"]], default=0) + 1
+        if "students" not in data:
+            data ["students"] = []
+        new_id = max ([s["id"]for s in data["students"]], default=0) + 1
         enrolled_course_ids = self.get(course_name)
         student =
         {
@@ -93,7 +93,7 @@ class ScheduleManager:
             "name" = student_name
             "enrolled_course_ids" = enrolled_course_ids
         }
-        data ["student"]. append(student)
+        data ["students"]. append(student)
         self.save_data(data)
         print("done!")
     # # TODO: Also implement find_student_by_id and find_course_by_id helper methods.
