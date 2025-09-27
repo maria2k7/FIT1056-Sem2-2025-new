@@ -26,7 +26,7 @@ class ScheduleManager:
                 # ...
                 self.students = [StudentUser(**s) for s in data.get("students",[])]
                 self.teachers = [TeacherUser(**s) for s in data.get("teachers",[])]
-                self.courses = [Courses(**c) for c in data.get("courses",[])]
+                self.courses = [Course(**c) for c in data.get("courses",[])]
                 # TODO: Correctly load the attendance log.
                 # Use .get() with a default empty list to prevent errors if the key doesn't exist.
                 self.attendance_log = data.get("attendance", [])
@@ -79,15 +79,15 @@ class ScheduleManager:
             if getattr(course, 'course_id', None) == course_id or getattr(course, 'id', None) == course_id:
                 return course
         return None 
-    def register_new_student(self, student, course):
+    def register_new_student(self, student_name, course_name):
         self._load_data()
-        new_id = max ([s.idfor s in self.students], default=0) + 1
-        enrolled_course = next ((c for c in self.courses if c.name == course_name), None)
+        new_id = max ([s.id for s in self.students], default=0) + 1
+        enrolled_course = next((c for c in self.courses if c.name == course_name), None)
         if not enrolled_course:
             raise ValueError (f"Course {course_name} does not exist.")
-        new_student = StudentUser
-        data ["students"]. append(student)
-        self._save_data(data)
-        return student
+        new_student = StudentUser(id=new_id, name=student_name, enrolled_course_ids=[enrolled_course.id])
+        self.students. append(student)
+        self._save_data()
         print("done!")
+        return student
     # # TODO: Also implement find_student_by_id and find_course_by_id helper methods.
