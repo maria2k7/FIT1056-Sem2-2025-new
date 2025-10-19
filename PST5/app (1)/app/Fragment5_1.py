@@ -39,9 +39,9 @@ def export_report(self, kind, out_path):
 
     # TODO: Use Python's 'csv' module to write the data.
     # Open the file, create a csv.DictWriter, write the header, then write all the rows.
-    # with open(out_path, 'w', newline='') as f:
-    #     writer = csv.DictWriter(f, fieldnames=headers)
-    #     writer.writeheader()
-    #     writer.writerows(data_to_export)
+    with open(out_path, 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=headers)
+        writer.writeheader()
+        writer.writerows(data_to_export)
 
     # ... inside ScheduleManager class ...

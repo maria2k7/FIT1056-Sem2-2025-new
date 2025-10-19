@@ -21,6 +21,13 @@
             "enrolled_course_ids": [
                 103
             ]
+        },
+        {
+            "id": 4,
+            "name": "Howl Pendragon",
+            "enrolled_course_ids": [
+                101
+            ]
         }
     ],
     "teachers": [
