@@ -1,5 +1,6 @@
 import sys
 import json
+import csv
 import datetime
 sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST5/app')
 from student import StudentUser
@@ -14,6 +15,7 @@ class ScheduleManager:
         self.courses = []
         # TODO: Initialize the new attendance_log attribute as an empty list.
         self.attendance_log = []
+        self.finance_log = []
         # ... (next_id counters) ...
         self._load_data()
 
@@ -30,11 +32,12 @@ class ScheduleManager:
                 # TODO: Correctly load the attendance log.
                 # Use .get() with a default empty list to prevent errors if the key doesn't exist.
                 self.attendance_log = data.get("attendance", [])
+                self.finance_log = data.get("finance", []) 
                 print ("The data has been retrieved successfully")
                 return data
         except FileNotFoundError:
             print("Data file not found. Starting with a clean state.")
-            return {"students": [], "teachers": [], "courses": [], "attendance": []}    
+            return {"students": [], "teachers": [], "courses": [], "attendance": [], "finance": []}    
     def _save_data(self):
         """Converts object lists back to dictionaries and saves to JSON."""
         # TODO: Create a 'data_to_save' dictionary.
@@ -45,6 +48,7 @@ class ScheduleManager:
             # TODO: Add the attendance_log to the dictionary to be saved.
             # Since it's already a list of dicts, no conversion is needed.
             "attendance": self.attendance_log,
+            "finance": self.finance_log,
             # ... (next_id counters) ...
         }
         # TODO: Write 'data_to_save' to the JSON file.
@@ -91,3 +95,43 @@ class ScheduleManager:
         print("done!")
         return new_student
     # # TODO: Also implement find_student_by_id and find_course_by_id helper methods.
+    def record_payment(self, student_id, amount, method):
+    # TODO: Find the student to ensure they exist.
+    # Create a payment dictionary with student_id, amount, method, and a timestamp.
+        payment_record = {
+            "student_id": student_id,
+            "amount": amount,
+            "method": method,
+            "timestamp": datetime.datetime.now().isoformat()
+        }
+        # TODO: Append the record to self.finance_log and save the data.
+        self.finance_log.append(payment_record)
+        self._save_data()
+        print(f"Payment of {amount} for student {student_id} recorded.")
+
+    def get_payment_history(self, student_id):
+        """Returns a list of all payments for a given student."""
+        # TODO: Use a list comprehension to filter self.finance_log
+        # and return only the records that match the student_id.
+        return [p for p in self.finance_log if p['student_id'] == student_id]
+
+    def export_report(self, kind, out_path):
+        """Exports a log to a CSV file."""
+        print(f"Exporting {kind} report to {out_path}...")
+        # TODO: Use an if/elif block to select the correct data list based on 'kind'.
+        if kind == "finance":
+            data_to_export = self.finance_log
+            headers = ["student_id", "amount", "method", "timestamp"]
+        elif kind == "attendance":
+            data_to_export = self.attendance_log # Assuming this exists from PST2
+            headers = ["student_id", "course_id", "timestamp"]
+        else:
+            print("Error: Unknown report type.")
+            return
+
+        # TODO: Use Python's 'csv' module to write the data.
+        # Open the file, create a csv.DictWriter, write the header, then write all the rows.
+        with open(out_path, 'w', newline='') as f:
+            writer = csv.DictWriter(f, fieldnames=headers)
+            writer.writeheader()
+            writer.writerows(data_to_export)
