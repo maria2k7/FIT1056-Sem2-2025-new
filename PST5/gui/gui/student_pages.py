@@ -20,11 +20,17 @@ def show_student_management_page(manager):
                 lookup_student = manager.find_student_by_id(student_id)
                 if lookup_student:
                     st.success(f"Successfully found {student_name}!")
-                    # You can use st.balloons() for extra flair.
+                    st.balloons
+            elif student_name:
+                lookup_student = manager.find_student_by_name(student_name)
+                if lookup_student:
+                    st.success(f"Successfully found {student_name}!")
+                    st.balloons
+                # You can use st.balloons() for extra flair.
                 else:
                     st.error(f"Hmm, perhaps this student doesn't exist. Try again next time!")
             else:
-                st.warning("Please enter both a name and an instrument.")
+                st.warning("Please enter both a name and an id.")
     # --- Registration Section (now works correctly) ---
     st.subheader("Register New Student")
     with st.form("registration_form"):

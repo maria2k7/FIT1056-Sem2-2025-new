@@ -60,18 +60,27 @@ class ScheduleManager:
         with open(self.data_path, 'w') as f:
             json.dump(data_to_save, f, indent=4)
     def check_in(self, student_id, course_id):
+        self._load_data()
         """Records a student's attendance for a course after validation."""
         # This implementation remains the same, but it will now function correctly.
-        student = self.find_student_by_id(student_id)
-        course = self.find_course_by_id(course_id)
-    
+        student = next((s for s in self.students if getattr(s, 'id', getattr(s, 'user_id', None)) == int(student_id)), None)
+        course = next((c for c in self.courses if getattr(c, 'id', getattr(c, 'course_id', None)) == int(course_id)), None)
+        enrolled_courses = getattr(student, 'enrolled_course_ids', [])
+        
         if not student or not course:
             print("Error: Check-in failed. Invalid Student or Course ID.")
             return False
-        
-        timestamp = datetime.datetime.now().isoformat()
-        check_in_record = {"student_id": student_id, "course_id": course_id, "timestamp": timestamp}
-    
+
+        if getattr(course, 'id', getattr(course, 'course_id', None)) not in enrolled_courses:
+            print(f"This student is not enrolled in {course.name}.")
+            return False
+        now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        check_in_record = {
+            "student_id": int(student_id),
+            "course_id": int(course_id),
+            "timestamp": now
+        }
+
         # This line will now work without causing an AttributeError.
         self.attendance_log.append(check_in_record)
         self._save_data() # This will now correctly save the attendance log.
@@ -79,9 +88,18 @@ class ScheduleManager:
         return True
 
     def find_student_by_id(self, user_id):
+        try:
+            user_id = int(user_id)
+        except ValueError:
+            return None
         for student in self.students:
             if getattr(student, 'user_id', None) == user_id:
                 return student
+        return None
+    def find_student_by_name(self, name):
+        for s in self.students:
+            if s.name.lower() == name.lower():
+                return s
         return None
     def find_course_by_id(self, course_id):
         for course in self.courses:

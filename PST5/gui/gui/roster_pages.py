@@ -9,7 +9,11 @@ def show_roster_page(manager):
     # --- View Roster Section (remains the same) ---
     day = st.selectbox("Select a day", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"])
     # ... (code to display the dataframe) ...
-    
+    if hasattr(manager, "attendance_log") and manager.attendance_log:
+        df = pd.DataFrame(manager.attendance_log)
+        st.dataframe(df)
+    else:
+        st.info("No attendance records yet.")
     # --- Student Check-in Section (now works correctly) ---
     st.subheader("Student Check-in")
     with st.form("check_in_form"):
