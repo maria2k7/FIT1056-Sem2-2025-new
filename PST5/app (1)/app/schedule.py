@@ -1,11 +1,16 @@
 import sys
 import json
 import csv
+import logging
 import datetime
 sys.path.append('C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST5/app')
 from student import StudentUser
 from teacher import TeacherUser, Course
-
+logging.basicConfig(
+    filename="C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST5/data/system.log",
+    level=logging.INFO,
+    format="%(asctime)s - %(levelname)s - %(message)s"
+)
 class ScheduleManager:
     """The main controller for all business logic and data handling."""
     def __init__(self, data_path="C:/Users/Admin/Desktop/FIT1056-Sem2-2025-new/PST4/data/msms.json"):
@@ -96,18 +101,23 @@ class ScheduleManager:
         return new_student
     # # TODO: Also implement find_student_by_id and find_course_by_id helper methods.
     def record_payment(self, student_id, amount, method):
-    # TODO: Find the student to ensure they exist.
-    # Create a payment dictionary with student_id, amount, method, and a timestamp.
+        """Record a payment and log it."""
+        student = self.find_student_by_id(student_id)
+        if not student:
+            print("Error: Student not found.")
+            return False
+
         payment_record = {
             "student_id": student_id,
             "amount": amount,
             "method": method,
             "timestamp": datetime.datetime.now().isoformat()
         }
-        # TODO: Append the record to self.finance_log and save the data.
         self.finance_log.append(payment_record)
         self._save_data()
-        print(f"Payment of {amount} for student {student_id} recorded.")
+        logging.info(f"Payment of {amount} recorded for student ID {student_id}.")
+        print(f"Payment of {amount} for {student.name} recorded.")
+        return True
 
     def get_payment_history(self, student_id):
         """Returns a list of all payments for a given student."""
@@ -128,10 +138,15 @@ class ScheduleManager:
         else:
             print("Error: Unknown report type.")
             return
-
-        # TODO: Use Python's 'csv' module to write the data.
-        # Open the file, create a csv.DictWriter, write the header, then write all the rows.
         with open(out_path, 'w', newline='') as f:
             writer = csv.DictWriter(f, fieldnames=headers)
             writer.writeheader()
             writer.writerows(data_to_export)
+
+    def cancel_lesson(self, lesson_id, reason):
+        # ... (logic to cancel a lesson) ...
+        self._save_data()
+        # TODO: Add a log entry.
+        logging.warning(f"Lesson ID {lesson_id} was cancelled. Reason: {reason}")
+        # TODO: Use Python's 'csv' module to write the data.
+        # Open the file, create a csv.DictWriter, write the header, then write all the rows.
